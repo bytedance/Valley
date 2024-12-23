@@ -1,0 +1,38 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+        args: ["--line-length=140"]
+  - repo: https://github.com/PyCQA/flake8
+    rev: 3.9.2
+    hooks:
+      - id: flake8
+        exclude: valley_eagle/constants.py|valley_eagle/model/multimodal_encoder/eva_clip/
+        args: ["--max-line-length=140", "--ignore=E303,E731,W191,W504,E402,E203,F541,W605,W503,E501,E712, F401", "--exclude=__init__.py"]
+  - repo: https://github.com/myint/autoflake
+    rev: v1.4
+    hooks:
+      - id: autoflake
+        args:
+          [
+            "--recursive",
+            "--in-place",
+            "--remove-unused-variable",
+            "--ignore-init-module-imports",
+            "--exclude=__init__.py"
+          ]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-ast
+      - id: check-byte-order-marker
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-json
+      - id: check-yaml
+      - id: debug-statements
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
