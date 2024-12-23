@@ -5,7 +5,7 @@ import numpy as np
 from torchvision import transforms
 
 model = ValleyEagleChat(
-    model_path='/mnt/bn/yangmin-priv/czh/checkpoints/valley/valley_b6_eagle_qwen2_5_siglip_ovis_convadapter_vocab32k_stage1_5_5200w_pack_part0_stage2_v3_50_200_250w_aquila_s3_4_anneal',
+    model_path='bytedance-research/Valley-Eagle-7B',
     padding_side = 'left',
 )
 

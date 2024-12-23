@@ -40,7 +40,7 @@ pip install -r requirements.txt
 ``` python
 from valley_eagle_chat import ValleyEagleChat
 model = ValleyEagleChat(
-    model_path='path/to/ckpt',
+    model_path='bytedance-research/Valley-Eagle-7B',
     padding_side = 'left',
 )
 
@@ -69,7 +69,7 @@ import numpy as np
 from torchvision import transforms
 
 model = ValleyEagleChat(
-    model_path='path/to/ckpt',
+    model_path='bytedance-research/Valley-Eagle-7B',
     padding_side = 'left',
 )
 
