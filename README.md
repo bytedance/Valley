@@ -27,7 +27,7 @@ and the model structure is shown as follows:
 
 
 ## Release
-- [12/23] 🔥 Announcing [Valley-Qwen2.5-7B](https://huggingface.co/ByteDance)!
+- [12/23] 🔥 Announcing [Valley-Eagle-7B](https://huggingface.co/bytedance-research/Valley-Eagle-7B)!
 
 ## Environment Setup
 ``` bash
