@@ -105,6 +105,9 @@ print(result)
 ## Related Project
 We list related Project
 - [Valley: Video Assistant with Large Language model Enhanced abilitY](https://github.com/RupertLuo/Valley)
+- [LLaVA: Large Language and Vision Assistant](https://github.com/haotian-liu/LLaVA)
+- [Eagle: Exploring The Design Space for Multimodal LLMs with Mixture of Encoders](https://github.com/NVlabs/EAGLE)
+- [Qwen2.5](https://github.com/QwenLM/Qwen2.5)
 
 ## License Agreement
 All of our open-source models are licensed under the [Apache-2.0](./LICENSE) license.
