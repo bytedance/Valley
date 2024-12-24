@@ -102,8 +102,12 @@ print(f"\n>>> Assistant:\n")
 print(result)
 ```
 
+## Related Project
+We list related Project
+- [Valley: Video Assistant with Large Language model Enhanced abilitY](https://github.com/RupertLuo/Valley)
+
 ## License Agreement
-All of our open-source models are licensed under the Apache-2.0 license.
+All of our open-source models are licensed under the [Apache-2.0](./LICENSE) license.
 
 
 ## Citation
