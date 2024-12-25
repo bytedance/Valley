@@ -34,14 +34,12 @@ logging.basicConfig(level=logging.INFO)
 
 # Init the constants
 IMAGE_TOKEN_INDEX = -200
-GANDALF_TOKEN_INDEX = -300
 DEFAULT_IMAGE_TOKEN = "<image>"
 DEFAULT_IM_START_TOKEN = "<im_start>"
 DEFAULT_IM_END_TOKEN = "<im_end>"
 DEFAULT_VIDEO_TOKEN = "<video>"
 DEFAULT_VI_START_TOKEN = "<vi_start>"
 DEFAULT_VI_END_TOKEN = "<vi_end>"
-DEFAULT_GANDALF_TOKEN = "<gandalf>"
 BLACK_IMG_ENV = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x03\x00\x00\x00\x03\x08\x02\x00\x00\x00\xd9J"\xe8\x00\x00\x00\x12IDAT\x08\x1dcd\x80\x01F\x06\x18`d\x80\x01\x00\x00Z\x00\x04we\x03N\x00\x00\x00\x00IEND\xaeB`\x82'
 
 
@@ -51,66 +49,23 @@ def preprocess_multimodal(
     data_args,
 ) -> Dict:
     for sentence in conversations:
-        if data_args.model_class in ["valley-product", "valley-gandalf", "tinyvalley", "valley-product-mistral"]:
-            if DEFAULT_VIDEO_TOKEN in sentence["value"]:
-                if data_args.use_special_start_end_token:
-                    video_replace_token = (DEFAULT_VI_START_TOKEN + DEFAULT_IMAGE_TOKEN + DEFAULT_VI_END_TOKEN) * img_num
-                else:
-                    video_replace_token = DEFAULT_IMAGE_TOKEN * img_num
-                sentence["value"] = sentence["value"].replace(DEFAULT_VIDEO_TOKEN, "").strip()
-                sentence["value"] = video_replace_token + "\n" + sentence["value"]
+        if DEFAULT_VIDEO_TOKEN in sentence["value"]:
+            if data_args.use_special_start_end_token:
+                video_replace_token = (DEFAULT_VI_START_TOKEN + DEFAULT_IMAGE_TOKEN + DEFAULT_VI_END_TOKEN) * img_num
             else:
-                segs = re.split(DEFAULT_IMAGE_TOKEN, sentence["value"])
-                if data_args.use_special_start_end_token:
-                    sentence["value"] = (DEFAULT_IM_START_TOKEN + DEFAULT_IMAGE_TOKEN + DEFAULT_IM_END_TOKEN).join(
-                        segs[: img_num + 1]
-                    ) + "".join(segs[img_num + 1 :])
-                else:
-                    sentence["value"] = DEFAULT_IMAGE_TOKEN.join(segs[: img_num + 1]) + "".join(segs[img_num + 1 :])
-        elif data_args.model_class in ["valley-video", "valley-video-mistral"]:
-            if DEFAULT_IMAGE_TOKEN in sentence["value"] or DEFAULT_VIDEO_TOKEN in sentence["value"]:
-                sentence["value"] = sentence["value"].replace(DEFAULT_IMAGE_TOKEN, "").strip()
-                sentence["value"] = sentence["value"].replace(DEFAULT_VIDEO_TOKEN, "").strip()
-                sentence["value"] = DEFAULT_IMAGE_TOKEN + "\n" + sentence["value"]
-                sentence["value"] = sentence["value"].strip()
+                video_replace_token = DEFAULT_IMAGE_TOKEN * img_num
+            sentence["value"] = sentence["value"].replace(DEFAULT_VIDEO_TOKEN, "").strip()
+            sentence["value"] = video_replace_token + "\n" + sentence["value"]
         else:
-            raise Exception(f"unknown model class : {data_args.model_class}")
+            segs = re.split(DEFAULT_IMAGE_TOKEN, sentence["value"])
+            if data_args.use_special_start_end_token:
+                sentence["value"] = (DEFAULT_IM_START_TOKEN + DEFAULT_IMAGE_TOKEN + DEFAULT_IM_END_TOKEN).join(
+                    segs[: img_num + 1]
+                ) + "".join(segs[img_num + 1 :])
+            else:
+                sentence["value"] = DEFAULT_IMAGE_TOKEN.join(segs[: img_num + 1]) + "".join(segs[img_num + 1 :])
 
     return conversations
-
-
-def tokenizer_image_token(
-    prompt,
-    tokenizer,
-    image_token_index=IMAGE_TOKEN_INDEX,
-    gandalf_token_index=GANDALF_TOKEN_INDEX,
-    return_tensors=None,
-):
-    def split_with_token(string, token):
-        result = string.split(token)
-        for i in range(len(result) - 1):
-            result.insert(i * 2 + 1, token)
-        return result
-
-    prompt_chunks = split_with_token(prompt, DEFAULT_IMAGE_TOKEN)
-    prompt_chunks = sum([split_with_token(chunk, DEFAULT_GANDALF_TOKEN) for chunk in prompt_chunks], [])
-    input_ids, offset = ([tokenizer.bos_token_id], 1) if getattr(tokenizer, "bos_token", None) else ([], 0)
-    token2index = {DEFAULT_IMAGE_TOKEN: image_token_index, DEFAULT_GANDALF_TOKEN: gandalf_token_index}
-    for chunk in prompt_chunks:
-        if chunk in token2index:
-            input_ids.append(token2index[chunk])
-        else:
-            chunk_ids = tokenizer(chunk).input_ids
-            # For Qwen2-7B, bos token exists but does not appear in the beginning
-            if chunk_ids[0] != getattr(tokenizer, "bos_token_id", None):
-                offset = 0
-            input_ids.extend(chunk_ids[offset:])
-
-    if return_tensors is not None:
-        if return_tensors == "pt":
-            return torch.tensor(input_ids, dtype=torch.long)
-        raise ValueError(f"Unsupported tensor type: {return_tensors}")
-    return input_ids
 
 
 class ValleyEagleChat:
