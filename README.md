@@ -1,6 +1,16 @@
 # Valley 2.0
+
+<p align="center">
+    <img src="./assets/valley_logo.jpg" width="500"/>
+<p>
+
+<p align="center">
+        🤗 <a href="https://huggingface.co/bytedance-research/Valley-Eagle-7B">Hugging Face</a>&nbsp&nbsp | &nbsp&nbsp 📑 <a href="https://hyggge.github.io/projects/valley/index.html">Home Page</a> 
+</p>
+
+
 ## Introduction
-Valley is a cutting-edge multimodal large model designed to handle a variety of tasks involving text, images, and video data, which is developed by ByteDance. Our model not only
+Valley is a cutting-edge multimodal large model designed to handle a variety of tasks involving text, images, and video data, which is developed by ByteDance. Our model
 
 - Achieved the best results in the inhouse e-commerce and short-video benchmarks, much better then other SOTA opensource models.
 - Demonstrated comparatively outstanding performance in the OpenCompass (average scores >= 67.40, *TOP2* among <10B models) tests
@@ -10,8 +20,13 @@ when evaluated against models of the same scale.
 <div style="display:flex;">
   <!-- <img src="assets/open_compass_1223.jpg" alt="opencompass" style="height:300px;" />
   <img src="assets/tts_inhouse_benchmark_1223.jpg" alt="inhouse" style="height:300px;" /> -->
-    <img src="assets/combine.jpg" alt="opencompass" style="height:300px;" />
+    <img src="assets/combine.jpg" alt="opencompass"/>
 </div>
+<br>
+
+<p align="center" style="display:flex;">
+    <img src="./assets/table.jpeg"/>
+<p>
 
 
 ## Valley-Eagle
