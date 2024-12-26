@@ -123,6 +123,7 @@ We list related Project
 - [Valley: Video Assistant with Large Language model Enhanced abilitY](https://github.com/RupertLuo/Valley)
 - [LLaVA: Large Language and Vision Assistant](https://github.com/haotian-liu/LLaVA)
 - [Eagle: Exploring The Design Space for Multimodal LLMs with Mixture of Encoders](https://github.com/NVlabs/EAGLE)
+- [LLaVA-CoT: Let Vision Language Models Reason Step-by-Step](https://github.com/PKU-YuanGroup/LLaVA-CoT)
 - [Qwen2.5](https://github.com/QwenLM/Qwen2.5)
 
 ## License Agreement
