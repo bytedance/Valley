@@ -8,8 +8,9 @@ Valley is a cutting-edge multimodal large model designed to handle a variety of 
 when evaluated against models of the same scale.
 
 <div style="display:flex;">
-  <img src="assets/open_compass_1223.jpg" alt="opencompass" style="height:300px;" />
-  <img src="assets/tts_inhouse_benchmark_1223.jpg" alt="inhouse" style="height:300px;" />
+  <!-- <img src="assets/open_compass_1223.jpg" alt="opencompass" style="height:300px;" />
+  <img src="assets/tts_inhouse_benchmark_1223.jpg" alt="inhouse" style="height:300px;" /> -->
+    <img src="assets/combine.jpg" alt="opencompass" style="height:300px;" />
 </div>
 
 
@@ -22,7 +23,7 @@ The foundational version of Valley is a multimodal large model aligned with Sigl
 and the model structure is shown as follows:
 
 <div style="display:flex;">
-  <img src="assets/valley_structure.jpeg" alt="opencompass" style="height:600px;" />
+  <img src="assets/valley_structure.jpeg" alt="opencompass" />
 </div>
 
 
