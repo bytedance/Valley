@@ -29,7 +29,7 @@ class EVOTokenCompressor(nn.Module):
         self.embed_dim = embed_dim
         self.inner_dim = inner_dim
 
-        if type(prune_ratio) == str:
+        if type(prune_ratio) is str:
             prune_ratio = eval(prune_ratio)
         self.prune_ratio = prune_ratio
 
@@ -44,7 +44,7 @@ class EVOTokenCompressor(nn.Module):
 
     def _init_weights(self, m):
         if isinstance(m, nn.Linear):
-            trunc_normal_(m.weight, std=0.02)
+            trunc_normal_(m.weight, std=.02)
             if isinstance(m, nn.Linear) and m.bias is not None:
                 nn.init.constant_(m.bias, 0)
         elif isinstance(m, nn.LayerNorm):

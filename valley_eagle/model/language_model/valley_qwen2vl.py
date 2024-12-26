@@ -18,10 +18,8 @@ import torch
 import torch.nn as nn
 from torch.nn import CrossEntropyLoss
 from transformers import Qwen2VLConfig, Qwen2VLModel, Qwen2VLForConditionalGeneration
-from transformers.models.qwen2_vl.modeling_qwen2_vl import (
-    Qwen2VLCausalLMOutputWithPast,
-    _prepare_4d_causal_attention_mask_with_cache_position,
-)
+from transformers.models.qwen2_vl.modeling_qwen2_vl import Qwen2VLCausalLMOutputWithPast
+from transformers.models.qwen2_vl.modeling_qwen2_vl import _prepare_4d_causal_attention_mask_with_cache_position
 from transformers.cache_utils import StaticCache
 from ..valley_arch import ValleyMetaModel, ValleyMetaForCausalLM
 
@@ -69,7 +67,7 @@ class ValleyQwen2VLForCausalLM(Qwen2VLForConditionalGeneration, ValleyMetaForCau
         image_grid_thw: Optional[torch.LongTensor] = None,
         video_grid_thw: Optional[torch.LongTensor] = None,
         rope_deltas: Optional[torch.LongTensor] = None,
-        **kwargs,
+        **kwargs
     ) -> Union[Tuple, Qwen2VLCausalLMOutputWithPast]:
         r"""
         Args:
@@ -108,11 +106,14 @@ class ValleyQwen2VLForCausalLM(Qwen2VLForConditionalGeneration, ValleyMetaForCau
         >>> # Generate
         >>> generate_ids = model.generate(inputs.input_ids, max_length=30)
         >>> tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
-        "The image shows a street scene with a red stop sign in the foreground. In the background, there is a large red gate with Chinese characters ..."
+        "The image shows a street scene with a red stop sign in the foreground."
+        "In the background, there is a large red gate with Chinese characters ..."
         ```"""
 
         output_attentions = output_attentions if output_attentions is not None else self.config.output_attentions
-        output_hidden_states = output_hidden_states if output_hidden_states is not None else self.config.output_hidden_states
+        output_hidden_states = (
+            output_hidden_states if output_hidden_states is not None else self.config.output_hidden_states
+        )
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
 
         if inputs_embeds is None:
@@ -194,17 +195,21 @@ class ValleyQwen2VLForCausalLM(Qwen2VLForConditionalGeneration, ValleyMetaForCau
         # Exception 2: some generation methods do special slicing of input_ids, so we don't need to do it here
         if past_key_values is not None:
             if inputs_embeds is not None:  # Exception 1
-                input_ids = input_ids[:, -cache_position.shape[0] :]
+                input_ids = input_ids[:, -cache_position.shape[0]:]
             elif input_ids.shape[1] != cache_position.shape[0]:  # Default case (the "else", a no op, is Exception 2)
                 input_ids = input_ids[:, cache_position]
 
         rope_deltas = kwargs.get("rope_deltas", None)
         if attention_mask is not None and position_ids is None:
             if cache_position is None or (cache_position is not None and cache_position[0] == 0):
-                position_ids, rope_deltas = self.get_rope_index(input_ids, image_grid_thw, video_grid_thw, attention_mask)
+                position_ids, rope_deltas = self.get_rope_index(
+                    input_ids, image_grid_thw, video_grid_thw, attention_mask
+                )
             else:
                 batch_size, seq_length = input_ids.shape
-                delta = cache_position[0] + rope_deltas if cache_position is not None and rope_deltas is not None else 0
+                delta = (
+                    cache_position[0] + rope_deltas if cache_position is not None and rope_deltas is not None else 0
+                )
                 position_ids = torch.arange(seq_length, device=input_ids.device)
                 position_ids = position_ids.view(1, -1).expand(batch_size, -1)
                 position_ids = position_ids.add(delta)
