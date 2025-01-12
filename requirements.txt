@@ -21,7 +21,6 @@ packaging==24.1
 nltk==3.9.1
 scikit-learn==1.5.2
 pandas==2.2.2
-byted-wandb==0.13.72
 peft==0.5.0
 deepspeed==0.9.5
 openai==0.28
@@ -35,3 +34,4 @@ transformers==4.45.2
 torchmetrics
 qwen_vl_utils
 flash_attn==2.7.2.post1
+wandb
