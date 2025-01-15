@@ -130,6 +130,18 @@ We list related Project
 ## License Agreement
 All of our open-source models are licensed under the [Apache-2.0](./LICENSE) license.
 
+## We are Hiring 🔥🔥🔥
+The Tiktop-Ecommerce Team focuses on the research and development of multi-modal large model algorithms and foundational algorithms, we welcome inquiries and look forward to working on challenging projects with talented individuals like you!
+
+Location: Beijing / Shanghai / Hangzhou / Singapore
+
+Contact & Resume Submission: wuheng.2024@bytedance.com
+
+> Tiktok-电商团队专注于多模态大模型算法和基础算法的研发，欢迎咨询(实习/全职)，期待和优秀的你，一起做有挑战的事情！
+>
+> 岗位城市：北京/上海/杭州/新加坡 
+> 
+> 咨询&简历投递：wuheng.2024@bytedance.com
 
 ## Citation
 Coming Soon!
