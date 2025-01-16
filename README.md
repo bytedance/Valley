@@ -144,4 +144,11 @@ Contact & Resume Submission: wuheng.2024@bytedance.com
 > 咨询&简历投递：wuheng.2024@bytedance.com
 
 ## Citation
-Coming Soon!
+```
+@article{wu2025valley2,
+  title={Valley2: Exploring Multimodal Models with Scalable Vision-Language Design},
+  author={Wu, Ziheng and Chen, Zhenghao and Luo, Ruipu and Zhang, Can and Gao, Yuan and He, Zhentao and Wang, Xian and Lin, Haoran and Qiu, Minghui},
+  journal={arXiv preprint arXiv:2501.05901},
+  year={2025}
+}
+```
