@@ -24,7 +24,6 @@ decord.bridge.set_bridge("torch")
 video = video_reader.get_batch(
     np.linspace(0,  len(video_reader) - 1, 8).astype(np.int_)
 ).byte()
-print([transforms.ToPILImage()(image.permute(2, 0, 1)).convert("RGB") for image in video])
 
 request = {
     "chat_history": [

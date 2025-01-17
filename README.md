@@ -56,25 +56,71 @@ pip install -r requirements.txt
 - Single image
 ``` python
 from valley_eagle_chat import ValleyEagleChat
+import urllib
+from io import BytesIO
+from PIL import Image
+
 model = ValleyEagleChat(
-    model_path='bytedance-research/Valley-Eagle-7B',
-    padding_side = 'left',
+    model_path="bytedance-research/Valley-Eagle-7B",
+    padding_side="left",
 )
 
-url = 'http://p16-goveng-va.ibyteimg.com/tos-maliva-i-wtmo38ne4c-us/4870400481414052507~tplv-wtmo38ne4c-jpeg.jpeg'
+url = "https://images.unsplash.com/photo-1734640113825-24dd7c056052"
 img = urllib.request.urlopen(url=url, timeout=5).read()
+img = Image.open(BytesIO(img)).convert("RGB")
 
 request = {
     "chat_history": [
-        {'role': 'system', 'content': 'You are Valley, developed by ByteDance. Your are a helpfull Assistant.'},
-        {'role': 'user', 'content': 'Describe the given image.'},
+        {"role": "system", "content": "You are Valley, developed by ByteDance. Your are a helpfull Assistant."},
+        {"role": "user", "content": "Describe the given image."},
     ],
     "images": [img],
 }
-
 result = model(request)
 print(f"\n>>> Assistant:\n")
 print(result)
+```
+
+- Multi-images
+``` python
+from valley_eagle_chat import ValleyEagleChat
+import urllib
+from io import BytesIO
+from PIL import Image
+
+model = ValleyEagleChat(
+    model_path="bytedance-research/Valley-Eagle-7B",
+    padding_side="left",
+)
+
+urls = [
+    "https://plus.unsplash.com/premium_photo-1661632559307-902ac3f6174c",
+    "https://plus.unsplash.com/premium_photo-1661632559713-a478160cd72e",
+    "https://plus.unsplash.com/premium_photo-1661607772173-54f7b8263c27",
+    "https://plus.unsplash.com/premium_photo-1661607115685-36b2a7276389",
+    "https://plus.unsplash.com/premium_photo-1661607103369-e799ee7ef954",
+    "https://plus.unsplash.com/premium_photo-1661628841460-1c9d7e6669ec",
+    "https://plus.unsplash.com/premium_photo-1661602273588-f213a4155caf",
+    "https://plus.unsplash.com/premium_photo-1661602247160-d42d7aba6798"
+]
+
+url2img = lambda url: Image.open(
+    BytesIO(urllib.request.urlopen(url=url, timeout=5).read())
+).convert("RGB")
+
+imgs = [url2img(url) for url in urls]
+
+request = {
+    "chat_history": [
+        {"role": "system", "content": "You are Valley, developed by ByteDance. Your are a helpfull Assistant."},
+        {"role": "user", "content": "Describe the given images."},
+    ],
+    "images": imgs,
+}
+result = model(request)
+print(f"\n>>> Assistant:\n")
+print(result)
+
 ```
 
 - Video
@@ -98,14 +144,13 @@ if response.status_code == 200:
         f.write(response.content)
 else:
     print("download error!")
-    exit(1)
+    exit(0)
 
 video_reader = decord.VideoReader(video_file)
 decord.bridge.set_bridge("torch")
 video = video_reader.get_batch(
     np.linspace(0,  len(video_reader) - 1, 8).astype(np.int_)
 ).byte()
-print([transforms.ToPILImage()(image.permute(2, 0, 1)).convert("RGB") for image in video])
 
 request = {
     "chat_history": [

@@ -110,7 +110,7 @@ class ValleyEagleChat:
         self.image_processor.crop_size = self.image_processor.size["height"]
 
     def preprocess_images(self, image_binary_list) -> torch.FloatTensor:
-        byte2image = lambda byte_data: Image.open(io.BytesIO(byte_data))
+        byte2image = lambda byte_data: Image.open(io.BytesIO(byte_data)).convert("RGB")
         images = []
         for binary in image_binary_list:
             if isinstance(binary, Image.Image):
