@@ -36,3 +36,48 @@ qwen2vl_vit_config = PretrainedConfig.from_dict(
         "_attn_implementation_internal": "flash_attention_2"
     }
 )
+
+
+siglip_processor_config = {
+    "do_normalize": True,
+    "do_rescale": True,
+    "do_resize": True,
+    "image_mean": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "image_processor_type": "SiglipImageProcessor",
+    "image_std": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "processor_class": "SiglipProcessor",
+    "resample": 3,
+    "rescale_factor": 0.00392156862745098,
+    "size": {
+        "height": 384,
+        "width": 384
+    }
+}
+
+qwen2vl_processor_config = {
+    "min_pixels": 3136,
+    "max_pixels": 12845056,
+    "patch_size": 14,
+    "temporal_patch_size": 2,
+    "merge_size": 2,
+    "image_mean": [
+        0.48145466,
+        0.4578275,
+        0.40821073
+    ],
+    "image_std": [
+        0.26862954,
+        0.26130258,
+        0.27577711
+    ],
+    "image_processor_type": "Qwen2VLImageProcessor",
+    "processor_class": "Qwen2VLProcessor"
+}

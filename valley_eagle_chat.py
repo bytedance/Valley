@@ -20,7 +20,7 @@ import numpy as np
 from typing import Dict, List, Union
 from PIL import Image
 from qwen_vl_utils import fetch_image
-from transformers import AutoTokenizer, AutoConfig, AutoProcessor, SiglipImageProcessor
+from transformers import AutoTokenizer, SiglipImageProcessor, Qwen2VLImageProcessor
 from transformers import set_seed
 
 from valley_eagle import conversation as conversation_lib
@@ -28,6 +28,7 @@ from valley_eagle.valley_utils import disable_torch_init
 from valley_eagle.model.language_model.valley_qwen2 import ValleyQwen2ForCausalLM
 from valley_eagle.util.data_util import dynamic_preprocess, preprocess
 from valley_eagle.util.mm_utils import process_anyres_image
+from valley_eagle.util.vision_encoder_config import siglip_processor_config, qwen2vl_processor_config
 
 logging.basicConfig(level=logging.INFO)
 
@@ -105,8 +106,8 @@ class ValleyEagleChat:
 
         # Load image preprocessor
         self.black_img = black_img
-        self.image_processor = SiglipImageProcessor.from_pretrained(self.model.config.mm_vision_tower)
-        self.qwen2vl_processor = AutoProcessor.from_pretrained(self.model.config.eagle_vision_tower, max_pixels=1280 * 28 * 28)
+        self.image_processor = SiglipImageProcessor.from_dict(siglip_processor_config)
+        self.qwen2vl_processor = Qwen2VLImageProcessor.from_dict(qwen2vl_processor_config, max_pixels=1280 * 28 * 28)
         self.image_processor.crop_size = self.image_processor.size["height"]
 
     def preprocess_images(self, image_binary_list) -> torch.FloatTensor:
@@ -184,14 +185,7 @@ class ValleyEagleChat:
         for image_file in images_pil:
             image = fetch_image({"image": image_file})
             image_list.append(image)
-        messages_qwen.append({"role": "user", "content": [{"type": "text", "text": text}]})
-        messages_qwen.append({"role": "assistant", "content": [{"type": "text", "text": ""}]})
-        text = self.qwen2vl_processor.apply_chat_template(messages_qwen[:-1], tokenize=False, add_generation_prompt=True)
-        text_segs = re.split("<image>", text)
-        text = "<|vision_start|><|image_pad|><|vision_end|>".join(text_segs[: len(image_list) + 1]) + "".join(
-            text_segs[len(image_list) + 1 :]
-        )
-        data_dict_qwen2vl = self.qwen2vl_processor(text=[text], images=image_list, padding=True, return_tensors="pt")
+        data_dict_qwen2vl = self.qwen2vl_processor(image_list, return_tensors="pt")
 
         # process messages, get tensors which will be input to model
         source = preprocess_multimodal(messages, img_length, self.model.config)
