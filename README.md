@@ -8,6 +8,11 @@
         🤗 <a href="https://huggingface.co/bytedance-research/Valley-Eagle-7B">Hugging Face</a>&nbsp&nbsp | &nbsp&nbsp🤖 <a href="https://www.modelscope.cn/models/Hyggge/Valley-Eagle-7B">ModelScope</a> &nbsp&nbsp | &nbsp&nbsp 📑 <a href="https://hyggge.github.io/projects/valley/index.html">Home Page</a> &nbsp&nbsp | &nbsp&nbsp 📙 <a href="https://arxiv.org/abs/2501.05901">Paper</a> 
 </p>
 
+## News
+- [2025/02/09] 🔥 We have developed the Valley-Eagle-7B-DPO, which scored 68.6 on the Opencompass leaderboard, and the weights will be released soon.
+- [2025/01/10] 🔥 Our paper has been released!  [Valley2: Exploring Multimodal Models with Scalable Vision-Language Design](https://arxiv.org/abs/2501.05901)
+- [2024/12/23] 🔥 Announcing [Valley-Eagle-7B](https://huggingface.co/bytedance-research/Valley-Eagle-7B)!
+
 
 ## Introduction
 Valley is a cutting-edge multimodal large model designed to handle a variety of tasks involving text, images, and video data, which is developed by ByteDance. Our model
@@ -25,7 +30,7 @@ when evaluated against models of the same scale.
 <br>
 
 <p align="center" style="display:flex;">
-    <img src="./assets/table.jpeg"/>
+    <img src="./assets/table_v2.jpeg"/>
 <p>
 
 
@@ -41,10 +46,6 @@ and the model structure is shown as follows:
   <img src="assets/valley_structure.jpeg" alt="opencompass" />
 </div>
 
-
-## Release
-- [2025/01/10] 🔥 Our paper has been released!  [Valley2: Exploring Multimodal Models with Scalable Vision-Language Design](https://arxiv.org/abs/2501.05901)
-- [2024/12/23] 🔥 Announcing [Valley-Eagle-7B](https://huggingface.co/bytedance-research/Valley-Eagle-7B)!
 
 ## Environment Setup
 ``` bash
