@@ -9,7 +9,7 @@
 </p>
 
 ## News
-- [2025/02/09] 🔥 We have developed the Valley-Eagle-7B-DPO, which scored 68.6 on the Opencompass leaderboard, and the weights will be released soon.
+- [2025/02/09] 🔥 We have developed the Valley-Eagle-7B-DPO, which scored 69.6 on the Opencompass leaderboard, and the weights will be released soon.
 - [2025/01/10] 🔥 Our paper has been released!  [Valley2: Exploring Multimodal Models with Scalable Vision-Language Design](https://arxiv.org/abs/2501.05901)
 - [2024/12/23] 🔥 Announcing [Valley-Eagle-7B](https://huggingface.co/bytedance-research/Valley-Eagle-7B)!
 
@@ -30,7 +30,7 @@ when evaluated against models of the same scale.
 <br>
 
 <p align="center" style="display:flex;">
-    <img src="./assets/table_v2.jpeg"/>
+    <img src="./assets/table_v3.jpeg"/>
 <p>
 
 
@@ -56,6 +56,52 @@ pip install -r requirements.txt
 ## Inference Demo
 - Single image
 ``` python
+# Method-1
+import torch
+import urllib
+from io import BytesIO
+from PIL import Image
+from transformers import AutoProcessor, AutoModel
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = AutoModel.from_pretrained("bytedance-research/Valley-Eagle-7B", trust_remote_code=True)
+processor = AutoProcessor.from_pretrained("bytedance-research/Valley-Eagle-7B",  trust_remote_code=True)
+
+url = "https://images.unsplash.com/photo-1734640113825-24dd7c056052"
+img = urllib.request.urlopen(url=url, timeout=5).read()
+img = Image.open(BytesIO(img)).convert("RGB")
+res = processor(
+    {
+        "conversations": 
+        [
+            {"role": "system", "content": "You are Valley, developed by ByteDance. Your are a helpfull Assistant."},
+            {"role": "user", "content": "Describe the given image."},
+        ], 
+        "images": [img]
+    }, 
+    inference=True
+)
+
+with torch.inference_mode():
+    model.to(dtype=torch.float16, device=device)
+    output_ids = model.generate(
+        input_ids=res["input_ids"].to(device),
+        images=[[item.to(dtype=torch.float16, device=device) for item in img] for img in res["images"]],
+        image_sizes=res["image_sizes"],
+        pixel_values=res["pixel_values"].to(dtype=torch.float16, device=device),
+        image_grid_thw=res["image_grid_thw"].to(device),
+        do_sample=False,
+        max_new_tokens=1024,
+        repetition_penalty=1.0,
+        return_dict_in_generate=True,
+        output_scores=True,
+    )
+input_token_len = res["input_ids"].shape[1]
+generation_text = processor.batch_decode(output_ids.sequences[:, input_token_len:])[0]
+generation_text = generation_text.replace("<|im_end|>", "")
+print(generation_text)
+
+# Method-2
 from valley_eagle_chat import ValleyEagleChat
 import urllib
 from io import BytesIO
