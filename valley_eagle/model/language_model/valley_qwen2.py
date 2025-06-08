@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union, Dict, Any
 
 import torch
 import torch.nn as nn
@@ -48,6 +48,29 @@ class ValleyQwen2ForCausalLM(Qwen2ForCausalLM, ValleyMetaForCausalLM):
 
     def get_model(self):
         return self.model
+
+    def _update_model_kwargs_for_generation(
+        self,
+        outputs: CausalLMOutputWithPast,
+        model_kwargs: Dict[str, Any],
+        is_encoder_decoder: bool = False,
+        num_new_tokens: int = 1,
+    ) -> Dict[str, Any]:
+        new_model_kwargs = super()._update_model_kwargs_for_generation(
+            outputs, 
+            model_kwargs, 
+            is_encoder_decoder, 
+            num_new_tokens
+        )
+        # update attention_mask
+        if not is_encoder_decoder:
+            if "attention_mask" in new_model_kwargs:
+                attention_mask = outputs.attention_mask
+                new_model_kwargs["attention_mask"] = torch.cat(
+                    [attention_mask, attention_mask.new_ones((attention_mask.shape[0], 1))], dim=-1
+                )
+        return new_model_kwargs
+
 
     def forward(
         self,
@@ -128,13 +151,16 @@ class ValleyQwen2ForCausalLM(Qwen2ForCausalLM, ValleyMetaForCausalLM):
             output = (logits,) + outputs[1:]
             return (loss,) + output if loss is not None else output
 
-        return CausalLMOutputWithPast(
+        res =  CausalLMOutputWithPast(
             loss=loss,
             logits=logits,
             past_key_values=outputs.past_key_values,
             hidden_states=outputs.hidden_states,
             attentions=outputs.attentions,
         )
+
+        res.attention_mask = attention_mask
+        return res
 
     def prepare_inputs_for_generation(
         self, input_ids, past_key_values=None, attention_mask=None, inputs_embeds=None, **kwargs
