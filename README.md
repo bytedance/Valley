@@ -9,9 +9,11 @@
 </p>
 
 ## News
-- [2025/02/09] 🔥 We have developed the Valley-Eagle-7B-DPO, which scored 69.6 on the Opencompass leaderboard, and the weights will be released soon.
+- [2025/06/06] 🔥 We have submitted Valley2-DPO to the closed-source OpenCompass Multi-modal Leaderboard, achieving a score of 38.62, which ranks top-3 among multi-modal models with fewer than 10 billion (10B) parameters.
+- [2025/04/14] 🔥 We have released the weights of [Valley-Eagle-7B-DPO (Valley2-DPO)](https://huggingface.co/bytedance-research/Valley2-DPO)!
+- [2025/02/09] 🔥 We have developed the Valley-Eagle-7B-DPO (Valley2-DPO), which scored 69.6 on the Opencompass leaderboard, and the weights will be released soon.
 - [2025/01/10] 🔥 Our paper has been released!  [Valley2: Exploring Multimodal Models with Scalable Vision-Language Design](https://arxiv.org/abs/2501.05901)
-- [2024/12/23] 🔥 Announcing [Valley-Eagle-7B](https://huggingface.co/bytedance-research/Valley-Eagle-7B)!
+- [2024/12/23] 🔥 Announcing [Valley-Eagle-7B (Valley2)](https://huggingface.co/bytedance-research/Valley-Eagle-7B)!
 
 
 ## Introduction
