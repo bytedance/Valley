@@ -1,4 +1,4 @@
-# Valley 2.0
+# Valley2
 
 <p align="center">
     <img src="./assets/valley_logo.jpg" width="500"/>
