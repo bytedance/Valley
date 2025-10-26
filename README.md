@@ -1,5 +1,3 @@
-# Valley2
-
 <p align="center">
     <img src="./assets/valley_logo.jpg" width="500"/>
 <p>
@@ -365,6 +363,7 @@ We list related Project
 - [Eagle: Exploring The Design Space for Multimodal LLMs with Mixture of Encoders](https://github.com/NVlabs/EAGLE)
 - [LLaVA-CoT: Let Vision Language Models Reason Step-by-Step](https://github.com/PKU-YuanGroup/LLaVA-CoT)
 - [Qwen2.5](https://github.com/QwenLM/Qwen2.5)
+- [Qwen3](https://github.com/QwenLM/Qwen3)
 
 ## License Agreement
 All of our open-source models are licensed under the [Apache-2.0](./LICENSE) license.
