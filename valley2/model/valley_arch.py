@@ -172,51 +172,12 @@ class ValleyMetaForCausalLM(ABC):
                         pooling_feature = m(image_feature).permute(0,2,3,1)
                         image_features[i] = pooling_feature.view(image_feature.shape[0], -1, hidden_dim)
                 split_sizes = None  # have already split, set the flag
-        if getattr(self.config, 'model_class', None) in ['valley-video','valley_video']:
-            # since we mix video data and image data in a batch, and in valley video structure,
-            # both have same dimention, we need to split them to process
-            if split_sizes is not None:
-                image_features = torch.split(image_features, split_sizes, dim=0)
-            if getattr(self.config, 'mm_use_im_start_end', False):
-                video_start_end_image_features = []
-                for feature in image_features:
-                    temporal_features = feature[:,0,:]
-                    video_features = torch.mean(feature[:,1:,:],dim=0)
-                    special_token_ids = torch.tensor(
-                        self.tokenizer.convert_tokens_to_ids(
-                            [DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN, DEFAULT_VI_START_TOKEN, DEFAULT_VI_END_TOKEN]
-                        )
-                    ).to(video_features.device)
-                    special_token_feature = self.get_model().embed_tokens(special_token_ids)
-                    # add special sep feature as [<im_start><video_feature><im_end><vi_start><temporal_feature><vi_end>]
-                    new_image_feature = torch.cat([
-                        special_token_feature[0].unsqueeze(0),
-                        video_features,
-                        special_token_feature[1].unsqueeze(0),
-                        special_token_feature[2].unsqueeze(0),
-                        temporal_features,
-                        special_token_feature[2].unsqueeze(0)
-                    ])
-                    video_start_end_image_features.append(new_image_feature.unsqueeze(0))
-                return video_start_end_image_features, qwen2vl_image_features
-            else:
-                image_features_new = []
-                for feature in image_features:
-                    temporal_features = feature[:,0,:]
-                    video_features = torch.mean(feature[:,1:,:],dim=0)
-                    new_image_feature = torch.cat([video_features, temporal_features])
-                    image_features_new.append(new_image_feature.unsqueeze(0))  # increase batch dim
-                return image_features_new, qwen2vl_image_features
-        elif getattr(self.config, 'model_class', None) in ['valley-product','valley_product', 'tinyvalley']:
-            if getattr(self.config, 'mm_use_im_start_end', False):
-                raise ValueError('mm_use_im_start is not support in valley_product')
-            if split_sizes is not None:
-                image_features = torch.split(image_features, split_sizes, dim=0)
-            return image_features, qwen2vl_image_features
-        elif getattr(self.config, 'model_class', None) == 'valley-product-gandalf':
-            raise ValueError('valley-product-gandalf is not support in this version.')
-        else:
-            raise ValueError('No model class specified')
+        
+        if getattr(self.config, 'mm_use_im_start_end', False):
+            raise ValueError('mm_use_im_start is not support in valley_product')
+        if split_sizes is not None:
+            image_features = torch.split(image_features, split_sizes, dim=0)
+        return image_features, qwen2vl_image_features
 
     def prepare_inputs_labels_for_multimodal(
         self, input_ids, position_ids, attention_mask, past_key_values, labels, images,

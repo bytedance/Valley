@@ -23,12 +23,12 @@ from qwen_vl_utils import fetch_image
 from transformers import AutoTokenizer, SiglipImageProcessor, Qwen2VLImageProcessor
 from transformers import set_seed
 
-from valley_eagle import conversation as conversation_lib
-from valley_eagle.valley_utils import disable_torch_init
-from valley_eagle.model.language_model.valley_qwen2 import ValleyQwen2ForCausalLM
-from valley_eagle.util.data_util import dynamic_preprocess, preprocess
-from valley_eagle.util.mm_utils import process_anyres_image
-from valley_eagle.util.vision_encoder_config import siglip_processor_config, qwen2vl_processor_config
+from . import conversation as conversation_lib
+from .valley_utils import disable_torch_init
+from .model.language_model.valley_qwen2 import ValleyQwen2ForCausalLM
+from .util.data_util import dynamic_preprocess, preprocess
+from .util.mm_utils import process_anyres_image
+from .util.vision_encoder_config import siglip_processor_config, qwen2vl_processor_config
 
 logging.basicConfig(level=logging.INFO)
 
@@ -69,7 +69,7 @@ def preprocess_multimodal(
     return conversations
 
 
-class ValleyEagleChat:
+class Valley2Chat:
     def __init__(
         self,
         model_path: str,

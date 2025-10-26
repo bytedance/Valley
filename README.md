@@ -9,20 +9,55 @@
 </p>
 
 ## News
-- [2025/06/06] 🔥 We have submitted Valley2-DPO to the closed-source OpenCompass Multi-modal Leaderboard, achieving a score of 38.62, which ranks top-3 among multi-modal models with fewer than 10 billion (10B) parameters.
-- [2025/04/14] 🔥 We have released the weights of [Valley-Eagle-7B-DPO (Valley2-DPO)](https://huggingface.co/bytedance-research/Valley2-DPO)!
-- [2025/02/09] 🔥 We have developed the Valley-Eagle-7B-DPO (Valley2-DPO), which scored 69.6 on the Opencompass leaderboard, and the weights will be released soon.
+- [2025/10/26] 🔥🔥🔥 We have released the weights of [Valley3](https://huggingface.co/bytedance-research/Valley3), which significantly enhances multimodal understanding and reasoning capabilities. It has achieved 74.4 on the OpenCompass Multi-modal Academic Leaderboard!
+- [2025/06/06] 🔥🔥 We have submitted Valley2-DPO to the closed-source OpenCompass Multi-modal Leaderboard, achieving a score of 38.62, which ranks top-3 among multi-modal models with fewer than 10 billion (10B) parameters.
+- [2025/04/14] 🔥 We have released the weights of [Valley2-DPO](https://huggingface.co/bytedance-research/Valley2-DPO)!
+- [2025/02/09] 🔥 We have developed the Valley2-DPO, which scored 69.6 on the Opencompass leaderboard, and the weights will be released soon.
 - [2025/01/10] 🔥 Our paper has been released!  [Valley2: Exploring Multimodal Models with Scalable Vision-Language Design](https://arxiv.org/abs/2501.05901)
-- [2024/12/23] 🔥 Announcing [Valley-Eagle-7B (Valley2)](https://huggingface.co/bytedance-research/Valley-Eagle-7B)!
+- [2024/12/23] 🔥 Announcing [Valley2(Valley-Eagle-7B)](https://huggingface.co/bytedance-research/Valley-Eagle-7B)!
 
 
 ## Introduction
 Valley is a cutting-edge multimodal large model designed to handle a variety of tasks involving text, images, and video data, which is developed by ByteDance. Our model
 
 - Achieved the best results in the inhouse e-commerce and short-video benchmarks, much better then other SOTA opensource models.
-- Demonstrated comparatively outstanding performance in the OpenCompass (average scores >= 67.40, *TOP2* among <10B models) tests
+- Demonstrated comparatively outstanding performance in the OpenCompass Benchmark.
 
-when evaluated against models of the same scale.
+## Valley3
+### Architecture
+For the LLM, we select Qwen3-8B-Base, chosen for its strong reasoning and language comprehension abilities. The Vision Encoder leverages Qwen2-VL-ViT, capable of processing dynamic-resolution inputs—a more robust alternative to the commonly used tiling approach when dealing with images of extreme aspect ratios. The Projector employs a 2×2 pixelshuffle downsampling on visual tokens, followed by a two-layer MLP with a 64k hidden dimension, providing high alignment capacity between modalities.
+This architectural design ensures that Valley3 achieves a balanced trade-off between representational power, computational efficiency, and multimodal adaptability.
+
+The overall architecture is shown as follows:
+
+<div style="display: flex;">
+  <img src="assets/valley3_structure.png" alt="opencompass" style="width: 100%; height: auto;" />
+</div>
+
+### Performance
+TBD...
+
+### Environment Setup
+TBD...
+
+### Inference Demo
+TBD...
+
+## Valley2
+### Architecture
+The foundational version of Valley is a multimodal large model aligned with Siglip and Qwen2.5, incorporating LargeMLP and ConvAdapter to construct the projector. 
+
+- In the final version, we also referenced [Eagle](https://arxiv.org/pdf/2408.15998), introducing an additional VisionEncoder that can flexibly adjust the number of tokens and is parallelized with the original visual tokens. 
+- This enhancement supplements the model’s performance in extreme scenarios, and we chose the Qwen2vl VisionEncoder for this purpose. 
+
+and the model structure is shown as follows:
+
+<div style="display:flex;">
+  <img src="assets/valley2_structure.png" alt="opencompass" />
+</div>
+
+
+### Performance
 
 <div style="display:flex;">
   <!-- <img src="assets/open_compass_1223.jpg" alt="opencompass" style="height:300px;" />
@@ -35,27 +70,13 @@ when evaluated against models of the same scale.
     <img src="./assets/table_v3.jpeg"/>
 <p>
 
-
-## Valley-Eagle
-The foundational version of Valley is a multimodal large model aligned with Siglip and Qwen2.5, incorporating LargeMLP and ConvAdapter to construct the projector. 
-
-- In the final version, we also referenced [Eagle](https://arxiv.org/pdf/2408.15998), introducing an additional VisionEncoder that can flexibly adjust the number of tokens and is parallelized with the original visual tokens. 
-- This enhancement supplements the model’s performance in extreme scenarios, and we chose the Qwen2vl VisionEncoder for this purpose. 
-
-and the model structure is shown as follows:
-
-<div style="display:flex;">
-  <img src="assets/valley_structure.jpeg" alt="opencompass" />
-</div>
-
-
-## Environment Setup
+### Environment Setup
 ``` bash
 pip install torch==2.4.0 torchvision==0.19.0 torchaudio==2.4.0 --index-url https://download.pytorch.org/whl/cu121
 pip install -r requirements.txt
 ```
 
-## Inference Demo
+### Inference Demo
 - Single image
 ``` python
 # Method-1
@@ -66,8 +87,8 @@ from PIL import Image
 from transformers import AutoProcessor, AutoModel
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = AutoModel.from_pretrained("bytedance-research/Valley-Eagle-7B", trust_remote_code=True)
-processor = AutoProcessor.from_pretrained("bytedance-research/Valley-Eagle-7B",  trust_remote_code=True)
+model = AutoModel.from_pretrained("bytedance-research/Valley2-DPO", trust_remote_code=True)
+processor = AutoProcessor.from_pretrained("bytedance-research/Valley2-DPO", trust_remote_code=True)
 
 url = "https://images.unsplash.com/photo-1734640113825-24dd7c056052"
 img = urllib.request.urlopen(url=url, timeout=5).read()
@@ -102,15 +123,17 @@ input_token_len = res["input_ids"].shape[1]
 generation_text = processor.batch_decode(output_ids.sequences[:, input_token_len:])[0]
 generation_text = generation_text.replace("<|im_end|>", "")
 print(generation_text)
+```
 
+``` python
 # Method-2
-from valley_eagle_chat import ValleyEagleChat
+from valley2.valley2_chat import Valley2Chat
 import urllib
 from io import BytesIO
 from PIL import Image
 
-model = ValleyEagleChat(
-    model_path="bytedance-research/Valley-Eagle-7B",
+model = Valley2Chat(
+    model_path="bytedance-research/Valley2-DPO",
     padding_side="left",
 )
 
@@ -132,13 +155,75 @@ print(result)
 
 - Multi-images
 ``` python
-from valley_eagle_chat import ValleyEagleChat
+# Method-1
+import torch
+import urllib
+from io import BytesIO
+from PIL import Image
+from transformers import AutoProcessor, AutoModel
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = AutoModel.from_pretrained("bytedance-research/Valley2-DPO", trust_remote_code=True)
+processor = AutoProcessor.from_pretrained("bytedance-research/Valley2-DPO",  trust_remote_code=True)
+
+urls = [
+    "https://plus.unsplash.com/premium_photo-1661632559307-902ac3f6174c",
+    "https://plus.unsplash.com/premium_photo-1661632559713-a478160cd72e",
+    "https://plus.unsplash.com/premium_photo-1661607772173-54f7b8263c27",
+    "https://plus.unsplash.com/premium_photo-1661607115685-36b2a7276389",
+    "https://plus.unsplash.com/premium_photo-1661607103369-e799ee7ef954",
+    "https://plus.unsplash.com/premium_photo-1661628841460-1c9d7e6669ec",
+    "https://plus.unsplash.com/premium_photo-1661602273588-f213a4155caf",
+    "https://plus.unsplash.com/premium_photo-1661602247160-d42d7aba6798"
+]
+
+url2img = lambda url: Image.open(
+    BytesIO(urllib.request.urlopen(url=url, timeout=5).read())
+).convert("RGB")
+
+imgs = [url2img(url) for url in urls]
+
+res = processor(
+    {
+        "conversations": 
+        [
+            {"role": "system", "content": "You are Valley, developed by ByteDance. Your are a helpfull Assistant."},
+            {"role": "user", "content": "Describe the given images."},
+        ], 
+        "images": imgs
+    }, 
+    inference=True
+)
+
+with torch.inference_mode():
+    model.to(dtype=torch.float16, device=device)
+    output_ids = model.generate(
+        input_ids=res["input_ids"].to(device),
+        images=[[item.to(dtype=torch.float16, device=device) for item in img] for img in res["images"]],
+        image_sizes=res["image_sizes"],
+        pixel_values=res["pixel_values"].to(dtype=torch.float16, device=device),
+        image_grid_thw=res["image_grid_thw"].to(device),
+        do_sample=False,
+        max_new_tokens=1024,
+        repetition_penalty=1.0,
+        return_dict_in_generate=True,
+        output_scores=True,
+    )
+input_token_len = res["input_ids"].shape[1]
+generation_text = processor.batch_decode(output_ids.sequences[:, input_token_len:])[0]
+generation_text = generation_text.replace("<|im_end|>", "")
+print(generation_text)
+```
+
+``` python
+# Method-2
+from valley2.valley2_chat import Valley2Chat
 import urllib
 from io import BytesIO
 from PIL import Image
 
-model = ValleyEagleChat(
-    model_path="bytedance-research/Valley-Eagle-7B",
+model = Valley2Chat(
+    model_path="bytedance-research/Valley2-DPO",
     padding_side="left",
 )
 
@@ -174,15 +259,75 @@ print(result)
 
 - Video
 ``` python
-from valley_eagle_chat import ValleyEagleChat
-import decord
-import requests
-import numpy as np
-from torchvision import transforms
+# Method-1
+import torch
+import urllib
+from io import BytesIO
+from PIL import Image
+from transformers import AutoProcessor, AutoModel
 
-model = ValleyEagleChat(
-    model_path='bytedance-research/Valley-Eagle-7B',
-    padding_side = 'left',
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = AutoModel.from_pretrained("bytedance-research/Valley2-DPO", trust_remote_code=True)
+processor = AutoProcessor.from_pretrained("bytedance-research/Valley2-DPO",  trust_remote_code=True)
+
+url = 'https://videos.pexels.com/video-files/29641276/12753127_1920_1080_25fps.mp4'
+video_file = './video.mp4'
+response = requests.get(url)
+if response.status_code == 200:
+    with open("video.mp4", "wb") as f:
+        f.write(response.content)
+else:
+    print("download error!")
+    exit(0)
+
+video_reader = decord.VideoReader(video_file)
+decord.bridge.set_bridge("torch")
+video = video_reader.get_batch(
+    np.linspace(0,  len(video_reader) - 1, 8).astype(np.int_)
+).byte()
+
+res = processor(
+    {
+        "conversations": 
+        [
+            {"role": "system", "content": "You are Valley, developed by ByteDance. Your are a helpfull Assistant."},
+            {"role": "user", "content": "Describe the given video."},
+        ], 
+        "images": [transforms.ToPILImage()(image.permute(2, 0, 1)).convert("RGB") for image in video],
+    }, 
+    inference=True
+)
+
+with torch.inference_mode():
+    model.to(dtype=torch.float16, device=device)
+    output_ids = model.generate(
+        input_ids=res["input_ids"].to(device),
+        images=[[item.to(dtype=torch.float16, device=device) for item in img] for img in res["images"]],
+        image_sizes=res["image_sizes"],
+        pixel_values=res["pixel_values"].to(dtype=torch.float16, device=device),
+        image_grid_thw=res["image_grid_thw"].to(device),
+        do_sample=False,
+        max_new_tokens=1024,
+        repetition_penalty=1.0,
+        return_dict_in_generate=True,
+        output_scores=True,
+    )
+input_token_len = res["input_ids"].shape[1]
+generation_text = processor.batch_decode(output_ids.sequences[:, input_token_len:])[0]
+generation_text = generation_text.replace("<|im_end|>", "")
+print(generation_text)
+```
+
+``` python
+# Method-2
+from valley2.valley2_chat import Valley2Chat
+import urllib
+from io import BytesIO
+from PIL import Image
+
+model = Valley2Chat(
+    model_path="bytedance-research/Valley2-DPO",
+    padding_side="left",
 )
 
 url = 'https://videos.pexels.com/video-files/29641276/12753127_1920_1080_25fps.mp4'

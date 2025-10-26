@@ -1,12 +1,11 @@
-from valley_eagle_chat import ValleyEagleChat
-import decord
-import requests
-import numpy as np
-from torchvision import transforms
+from valley2.valley2_chat import Valley2Chat
+import urllib
+from io import BytesIO
+from PIL import Image
 
-model = ValleyEagleChat(
-    model_path='bytedance-research/Valley-Eagle-7B',
-    padding_side = 'left',
+model = Valley2Chat(
+    model_path="bytedance-research/Valley2-DPO",
+    padding_side="left",
 )
 
 url = 'https://videos.pexels.com/video-files/29641276/12753127_1920_1080_25fps.mp4'
