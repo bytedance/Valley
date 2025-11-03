@@ -1,7 +1,11 @@
 from valley2.valley2_chat import Valley2Chat
 import urllib
+import decord
+import requests
+import numpy as np
 from io import BytesIO
 from PIL import Image
+from torchvision import transforms
 
 model = Valley2Chat(
     model_path="bytedance-research/Valley2-DPO",
