@@ -7,7 +7,8 @@
 </p>
 
 ## News
-- [2025/10/26] 🔥🔥🔥 We have released the weights of [Valley3](https://huggingface.co/bytedance-research/Valley3), which significantly enhances multimodal understanding and reasoning capabilities. It has achieved 74.4 on the OpenCompass Multi-modal Academic Leaderboard!
+- [2025/11/27] 🔥🔥🔥 We have released the technical report of Valley3! Check out the full paper here: [Valley3 Technical Report](https://raw.githubusercontent.com/bytedance/Valley/refs/heads/main/docs/Valley3_Tech_Report.pdf).  
+- [2025/10/26] 🔥🔥🔥 We have released the weights of [Valley3](https://huggingface.co/bytedance-research/Valley3), which significantly enhances multimodal understanding and reasoning capabilities. It has achieved 74.3 on the OpenCompass Multi-modal Academic Leaderboard!
 - [2025/06/06] 🔥🔥 We have submitted Valley2-DPO to the closed-source OpenCompass Multi-modal Leaderboard, achieving a score of 38.62, which ranks top-3 among multi-modal models with fewer than 10 billion (10B) parameters.
 - [2025/04/14] 🔥 We have released the weights of [Valley2-DPO](https://huggingface.co/bytedance-research/Valley2-DPO)!
 - [2025/02/09] 🔥 We have developed the Valley2-DPO, which scored 69.6 on the Opencompass leaderboard, and the weights will be released soon.
