@@ -12,8 +12,8 @@
 <p align="center">
         &nbsp&nbsp 📑 <a href="https://hyggge.github.io/projects/valley/index.html">Home Page</a>&nbsp&nbsp |
         &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley-Eagle-7B">Valley2 Model</a>&nbsp&nbsp |
-        &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley-Eagle-7B">Valley2-DPO Model</a>&nbsp&nbsp |
-        &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley-2.5">Valley2.5 Model</a>&nbsp&nbsp  | 
+        &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley2-DPO">Valley2-DPO Model</a>&nbsp&nbsp |
+        &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley2.5">Valley2.5 Model</a>&nbsp&nbsp  | 
         &nbsp&nbsp 📙 <a href="https://arxiv.org/abs/2501.05901">Valley2 Paper</a>&nbsp&nbsp |  
         &nbsp&nbsp 📙 <a href="https://raw.githubusercontent.com/bytedance/Valley/refs/heads/main/docs/Valley2_5_Tech_Report.pdf">Valley2.5 Paper</a> &nbsp&nbsp 
 </p>
