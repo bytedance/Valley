@@ -1,7 +1,11 @@
 import torch
 import urllib
+import decord
+import requests
+import numpy as np
 from io import BytesIO
 from PIL import Image
+from torchvision import transforms
 from transformers import AutoProcessor, AutoModel
 
 GTHINKER_SYS_PROMPT = (
@@ -16,28 +20,43 @@ GTHINKER_SYS_PROMPT = (
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = AutoModel.from_pretrained(
-    "bytedance-research/Valley3", 
+    "bytedance-research/Valley2.5", 
     trust_remote_code=True
 )
 processor = AutoProcessor.from_pretrained(
-    "bytedance-research/Valley3", 
+    "bytedance-research/Valley2.5", 
     only_navit=True,
-    max_pixels=28*28*16384,
+    max_pixels=28*28*256,
     min_pixels=28*28*4,
     trust_remote_code=True
 )
 
-url = "https://images.unsplash.com/photo-1734640113825-24dd7c056052"
-img = urllib.request.urlopen(url=url, timeout=5).read()
-img = Image.open(BytesIO(img)).convert("RGB")
+url = 'https://videos.pexels.com/video-files/29641276/12753127_1920_1080_25fps.mp4'
+video_file = './video.mp4'
+response = requests.get(url)
+if response.status_code == 200:
+    with open("video.mp4", "wb") as f:
+        f.write(response.content)
+else:
+    print("download error!")
+    exit(0)
+
+video_reader = decord.VideoReader(video_file)
+decord.bridge.set_bridge("torch")
+num_frame = 8
+video = video_reader.get_batch(
+    np.linspace(0,  len(video_reader) - 1, num_frame).astype(np.int_)
+).byte()
+imgs =  [transforms.ToPILImage()(image.permute(2, 0, 1)).convert("RGB") for image in video]
+
 res = processor(
     {
         "conversations": 
         [
             {"role": "system", "content": GTHINKER_SYS_PROMPT},
-            {"role": "user", "content": "Describe the given image."},
+            {"role": "user", "content": "Describe the given video."},
         ], 
-        "images": [img]
+        "images": imgs
     }, 
     enable_thinking=True
 )

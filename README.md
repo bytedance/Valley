@@ -7,8 +7,8 @@
 </p>
 
 ## News
-- [2025/11/27] 🔥🔥🔥 We have released the technical report of Valley3! Check out the full paper here: [Valley3 Technical Report](https://raw.githubusercontent.com/bytedance/Valley/refs/heads/main/docs/Valley3_Tech_Report.pdf).  
-- [2025/10/26] 🔥🔥🔥 We have released the weights of [Valley3](https://huggingface.co/bytedance-research/Valley3), which significantly enhances multimodal understanding and reasoning capabilities. It has achieved 74.3 on the OpenCompass Multi-modal Academic Leaderboard!
+- [2025/11/27] 🔥🔥🔥 We have released the technical report of Valley2.5! Check out the full paper here: [Valley2.5 Technical Report](https://raw.githubusercontent.com/bytedance/Valley/refs/heads/main/docs/Valley2_5_Tech_Report.pdf).  
+- [2025/10/26] 🔥🔥🔥 We have released the weights of [Valley2.5](https://huggingface.co/bytedance-research/Valley2.5), which significantly enhances multimodal understanding and reasoning capabilities. It has achieved 74.3 on the OpenCompass Multi-modal Academic Leaderboard!
 - [2025/06/06] 🔥🔥 We have submitted Valley2-DPO to the closed-source OpenCompass Multi-modal Leaderboard, achieving a score of 38.62, which ranks top-3 among multi-modal models with fewer than 10 billion (10B) parameters.
 - [2025/04/14] 🔥 We have released the weights of [Valley2-DPO](https://huggingface.co/bytedance-research/Valley2-DPO)!
 - [2025/02/09] 🔥 We have developed the Valley2-DPO, which scored 69.6 on the Opencompass leaderboard, and the weights will be released soon.
@@ -22,20 +22,20 @@ Valley is a cutting-edge multimodal large model designed to handle a variety of 
 - Achieved the best results in the inhouse e-commerce and short-video benchmarks, much better then other SOTA opensource models.
 - Demonstrated comparatively outstanding performance in the OpenCompass Benchmark.
 
-## Valley3
+## Valley2.5
 ### Architecture
 For the LLM, we select Qwen3-8B-Base, chosen for its strong reasoning and language comprehension abilities. The Vision Encoder leverages Qwen2-VL-ViT, capable of processing dynamic-resolution inputs—a more robust alternative to the commonly used tiling approach when dealing with images of extreme aspect ratios. The Projector employs a 2×2 pixelshuffle downsampling on visual tokens, followed by a two-layer MLP with a 64k hidden dimension, providing high alignment capacity between modalities.
-This architectural design ensures that Valley3 achieves a balanced trade-off between representational power, computational efficiency, and multimodal adaptability.
+This architectural design ensures that Valley2.5 achieves a balanced trade-off between representational power, computational efficiency, and multimodal adaptability.
 
 The overall architecture is shown as follows:
 
 <div style="display: flex;">
-  <img src="assets/valley3_structure.png" alt="opencompass" style="width: 100%; height: auto;" />
+  <img src="assets/valley2_5_structure.png" alt="opencompass" style="width: 100%; height: auto;" />
 </div>
 
 ### Performance
 <p align="center" style="display:flex;">
-    <img src="./assets/performance_valley3.png"/>
+    <img src="./assets/performance_valley2_5.png"/>
 <p>
 
 ### Environment Setup
@@ -65,11 +65,11 @@ GTHINKER_SYS_PROMPT = (
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = AutoModel.from_pretrained(
-    "bytedance-research/Valley3", 
+    "bytedance-research/Valley2.5", 
     trust_remote_code=True
 )
 processor = AutoProcessor.from_pretrained(
-    "bytedance-research/Valley3", 
+    "bytedance-research/Valley2.5", 
     only_navit=True,
     max_pixels=28*28*16384,
     min_pixels=28*28*4,
@@ -132,11 +132,11 @@ GTHINKER_SYS_PROMPT = (
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = AutoModel.from_pretrained(
-    "bytedance-research/Valley3", 
+    "bytedance-research/Valley2.5", 
     trust_remote_code=True
 )
 processor = AutoProcessor.from_pretrained(
-    "bytedance-research/Valley3", 
+    "bytedance-research/Valley2.5", 
     only_navit=True,
     max_pixels=28*28*256,
     min_pixels=28*28*4,
@@ -215,11 +215,11 @@ GTHINKER_SYS_PROMPT = (
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = AutoModel.from_pretrained(
-    "bytedance-research/Valley3", 
+    "bytedance-research/Valley2.5", 
     trust_remote_code=True
 )
 processor = AutoProcessor.from_pretrained(
-    "bytedance-research/Valley3", 
+    "bytedance-research/Valley2.5", 
     only_navit=True,
     max_pixels=28*28*256,
     min_pixels=28*28*4,

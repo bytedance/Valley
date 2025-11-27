@@ -1,11 +1,7 @@
 import torch
 import urllib
-import decord
-import requests
-import numpy as np
 from io import BytesIO
 from PIL import Image
-from torchvision import transforms
 from transformers import AutoProcessor, AutoModel
 
 GTHINKER_SYS_PROMPT = (
@@ -20,41 +16,38 @@ GTHINKER_SYS_PROMPT = (
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = AutoModel.from_pretrained(
-    "bytedance-research/Valley3", 
+    "bytedance-research/Valley2.5", 
     trust_remote_code=True
 )
 processor = AutoProcessor.from_pretrained(
-    "bytedance-research/Valley3", 
+    "bytedance-research/Valley2.5", 
     only_navit=True,
     max_pixels=28*28*256,
     min_pixels=28*28*4,
     trust_remote_code=True
 )
 
-url = 'https://videos.pexels.com/video-files/29641276/12753127_1920_1080_25fps.mp4'
-video_file = './video.mp4'
-response = requests.get(url)
-if response.status_code == 200:
-    with open("video.mp4", "wb") as f:
-        f.write(response.content)
-else:
-    print("download error!")
-    exit(0)
-
-video_reader = decord.VideoReader(video_file)
-decord.bridge.set_bridge("torch")
-num_frame = 8
-video = video_reader.get_batch(
-    np.linspace(0,  len(video_reader) - 1, num_frame).astype(np.int_)
-).byte()
-imgs =  [transforms.ToPILImage()(image.permute(2, 0, 1)).convert("RGB") for image in video]
+urls = [
+    "https://plus.unsplash.com/premium_photo-1661632559307-902ac3f6174c",
+    "https://plus.unsplash.com/premium_photo-1661632559713-a478160cd72e",
+    "https://plus.unsplash.com/premium_photo-1661607772173-54f7b8263c27",
+    "https://plus.unsplash.com/premium_photo-1661607115685-36b2a7276389",
+    "https://plus.unsplash.com/premium_photo-1661607103369-e799ee7ef954",
+    "https://plus.unsplash.com/premium_photo-1661628841460-1c9d7e6669ec",
+    "https://plus.unsplash.com/premium_photo-1661602273588-f213a4155caf",
+    "https://plus.unsplash.com/premium_photo-1661602247160-d42d7aba6798"
+]
+url2img = lambda url: Image.open(
+    BytesIO(urllib.request.urlopen(url=url, timeout=5).read())
+).convert("RGB")
+imgs = [url2img(url) for url in urls]
 
 res = processor(
     {
         "conversations": 
         [
             {"role": "system", "content": GTHINKER_SYS_PROMPT},
-            {"role": "user", "content": "Describe the given video."},
+            {"role": "user", "content": "Describe the given images."},
         ], 
         "images": imgs
     }, 
