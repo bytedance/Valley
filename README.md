@@ -646,4 +646,11 @@ Contact & Resume Submission: xiaochen.qiu@bytedance.com
   journal={arXiv preprint arXiv:2501.05901},
   year={2025}
 }
+
+@article{luo2023valley,
+  title={Valley: Video assistant with large language model enhanced ability},
+  author={Luo, Ruipu and Zhao, Ziwang and Yang, Min and Dong, Junwei and Li, Da and Lu, Pengcheng and Wang, Tao and Hu, Linmei and Qiu, Minghui and Wei, Zhongyu},
+  journal={arXiv preprint arXiv:2306.07207},
+  year={2023}
+}
 ```
