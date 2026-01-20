@@ -15,7 +15,7 @@
         &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley2.5">Valley2.5 Model</a>&nbsp&nbsp
 </p>
 <p align="center">
-        &nbsp&nbsp 📙 <a href="https://arxiv.org/pdf/2306.07207">Valley Paper</a>&nbsp&nbsp |
+        &nbsp&nbsp 📙 <a href="https://arxiv.org/abs/2306.07207">Valley Paper</a>&nbsp&nbsp |
         &nbsp&nbsp 📙 <a href="https://arxiv.org/abs/2501.05901">Valley2 Paper</a>&nbsp&nbsp |  
         &nbsp&nbsp 📙 <a href="https://raw.githubusercontent.com/bytedance/Valley/refs/heads/main/docs/Valley2_5_Tech_Report.pdf">Valley2.5 Paper</a> &nbsp&nbsp 
 </p>
@@ -28,6 +28,7 @@
 - [2025/02/09] 🔥 We have developed the Valley2-DPO, which scored 69.6 on the Opencompass leaderboard, and the weights will be released soon.
 - [2025/01/10] 🔥 Our paper has been released!  [Valley2: Exploring Multimodal Models with Scalable Vision-Language Design](https://arxiv.org/abs/2501.05901)
 - [2024/12/23] 🔥 Announcing [Valley2(Valley-Eagle-7B)](https://huggingface.co/bytedance-research/Valley-Eagle-7B)!
+- [2023/06/12] 🔥 [Valley: Video Assistant with Large Language model Enhanced abilitY](https://arxiv.org/abs/2306.07207) has been released!
 
 
 ## Introduction
@@ -615,6 +616,9 @@ print(f"\n>>> Assistant:\n")
 print(result)
 ```
 
+## Valley
+Training and inference codes are in [valley](https://github.com/bytedance/Valley/tree/main/valley)
+
 ## Related Project
 We list related Project
 - [Valley: Video Assistant with Large Language model Enhanced abilitY](https://github.com/RupertLuo/Valley)
@@ -632,13 +636,13 @@ The Tiktop-Ecommerce Team focuses on the research and development of multi-modal
 
 Location: Beijing / Shanghai / Hangzhou / Singapore
 
-Contact & Resume Submission: xiaochen.qiu@bytedance.com
+Contact & Resume Submission: xiaochen.qiu@bytedance.com, yangmin.priv@bytedance.com
 
 > Tiktok-电商团队专注于多模态大模型算法和基础算法的研发，欢迎咨询(实习/全职)，期待和优秀的你，一起做有挑战的事情！
 >
 > 岗位城市：北京/上海/杭州/新加坡 
 > 
-> 咨询&简历投递：xiaochen.qiu@bytedance.com
+> 咨询&简历投递：xiaochen.qiu@bytedance.com, yangmin.priv@bytedance.com
 
 ## Citation
 ```
