@@ -1,0 +1,1 @@
+torchrun --nproc_per_node 8 --nnodes 1 --node_rank=0 --master_addr 10.192.24.78 --master_port 10404 valley/train/train.py --conf $1

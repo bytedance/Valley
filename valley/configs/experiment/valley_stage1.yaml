@@ -1,0 +1,53 @@
+model_name_or_path: Path/to/opensource/LLM
+data_path: Path/to/LLaVA-CC3M-Pretrain-595K/chat.json
+image_folder: Path/to/LLaVA-CC3M-Pretrain-595K/image_new
+video_data_path: Path/to/webvid_703K/chat.json
+video_folder: Path/to/webvid_703K/videos
+output_dir: Path/to/model/out/dir
+# experiment name
+project_name: valley
+run_name: valley_stage1
+
+# Whether to make the system prompt a mask in the label, and others do not mask
+only_mask_system: False
+# system prompt style
+conv_mode: v1
+# wether freeze backbone
+freeze_backbone: True
+# wether tune multimodal projection layer
+tune_mm_mlp_adapter: True
+# wether lora
+lora: False
+# wether multimodal
+is_multimodal: True
+
+num_train_epochs: 1
+per_device_train_batch_size: 16
+save_strategy: steps
+save_steps: 2400
+learning_rate: 2e-3
+gradient_checkpointing: True
+
+# wether do fast epoch
+fast_epoch: False
+
+vision_tower: openai/clip-vit-large-patch14
+mm_vision_select_layer: -2
+mm_use_im_start_end: True
+lazy_preprocess: True
+bf16: False
+fp16: True
+tf32: False
+per_device_eval_batch_size: 1
+gradient_accumulation_steps: 1
+evaluation_strategy: "no"
+save_total_limit: 1 
+weight_decay: 0.
+warmup_ratio: 0.03 
+lr_scheduler_type: cosine
+logging_steps: 1 
+model_max_length: 2048 
+adam_beta1: 0.9 
+adam_beta2: 0.95 
+deepspeed: valley/configs/deepspeed/config_zero2.json
+report_to: wandb
