@@ -655,8 +655,9 @@ Contact & Resume Submission: xiaochen.qiu@bytedance.com, yangmin.priv@bytedance.
 
 @article{luo2023valley,
   title={Valley: Video assistant with large language model enhanced ability},
-  author={Luo, Ruipu and Zhao, Ziwang and Yang, Min and Dong, Junwei and Li, Da and Lu, Pengcheng and Wang, Tao and Hu, Linmei and Qiu, Minghui and Wei, Zhongyu},
-  journal={arXiv preprint arXiv:2306.07207},
-  year={2023}
+  author={Luo, Ruipu and Zhao, Ziwang and Yang, Min and Yang, Zheming and Qiu, Minghui and Wei, Zhongyu and Wang, Yanhao and Chen, Cen},
+  journal={ACM Transactions on Multimedia Computing, Communications and Applications},
+  year={2023},
+  publisher={ACM New York, NY}
 }
 ```
