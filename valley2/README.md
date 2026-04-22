@@ -8,7 +8,7 @@ The foundational version of Valley is a multimodal large model aligned with Sigl
 and the model structure is shown as follows:
 
 <div style="display:flex;">
-  <img src="assets/valley2_structure.png" alt="opencompass" />
+  <img src="../assets/valley2_structure.png" alt="opencompass" />
 </div>
 
 
@@ -17,12 +17,12 @@ and the model structure is shown as follows:
 <div style="display:flex;">
   <!-- <img src="assets/open_compass_1223.jpg" alt="opencompass" style="height:300px;" />
   <img src="assets/tts_inhouse_benchmark_1223.jpg" alt="inhouse" style="height:300px;" /> -->
-    <img src="assets/combine.jpg" alt="opencompass"/>
+    <img src="../assets/combine.jpg" alt="opencompass"/>
 </div>
 <br>
 
 <p align="center" style="display:flex;">
-    <img src="./assets/performance_valley2.jpeg"/>
+    <img src="../assets/performance_valley2.jpeg"/>
 <p>
 
 ### Environment Setup
