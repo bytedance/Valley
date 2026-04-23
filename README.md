@@ -32,7 +32,7 @@
 
 
 ## Introduction
-Valley is a cutting-edge multimodal large model designed to handle a variety of tasks involving text, images, and video data, which is developed by ByteDance. Our model
+Valley is a cutting-edge multimodal large model designed to handle a variety of tasks involving text, images, and video data, which is developed by ByteDance. Our model:
 
 - Achieved the best results in the inhouse e-commerce and short-video benchmarks, much better then other SOTA opensource models.
 - Demonstrated comparatively outstanding performance in the OpenCompass Benchmark.
@@ -293,10 +293,10 @@ print(generation_text)
 
 
 ## Valley2
-The related codes are in [valley2](https://github.com/bytedance/Valley/tree/main/valley2)
+The relevant codes are stored in [valley2](https://github.com/bytedance/Valley/tree/main/valley2) folder.
 
 ## Valley
-Training and inference codes are in [valley](https://github.com/bytedance/Valley/tree/main/valley)
+The relevant codes are stored in [valley](https://github.com/bytedance/Valley/tree/main/valley) folder.
 
 ## Related Project
 We list related Project
