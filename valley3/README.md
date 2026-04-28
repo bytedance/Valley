@@ -16,12 +16,14 @@ We provide two inference methods for Valley3: one based on Transformers and the 
 - vLLM: Compatible with version 0.18.0
     - Main Dependencies: Torch 2.10 and CUDA 12.8
     - Make sure to install the Transformers library that has been integrated with the Valley3 model
+
 ### I. Inference with Transformers 5.0
 ```bash
 ### Dependencies: torch2.8.0, torchvision0.23.0...
 pip3 install torch==2.8.0 --index-url https://download.pytorch.org/whl/cu128
 pip3 install torchvision==0.23.0 --no-deps
-pip3 install qwen_omni_utils
+pip3 install accelerate==1.12.0
+pip3 install qwen_omni_utils==0.0.8
 sudo apt-get install ffmpeg
 ```
 #### Option1: Transformers 5.0.0 dev (similar with 4.57)
@@ -42,7 +44,7 @@ pip3 install -e . --user
 
 ### II. Inference with vLLM 0.18.0
 vLLM 0.18.0 requires Torch 2.10 and CUDA 12.8.
-#### Option1: Out-of-tree plugin: import Valley3 during inference
+#### Option1 (Recommended): Out-of-tree plugin, import Valley3 during inference
 ```bash
 # Dependencies: torch2.10, torchvision0.25.0...
 pip3 install vllm==0.18.0
@@ -51,7 +53,6 @@ cd /path/to/transformers_5_0_release/ # or transformers_5_0_0_dev
 pip3 install -e . --user
 # Others
 pip3 install qwen_omni_utils==0.0.8
-pip3 install qwen_vl_utils==0.0.14
 sudo apt-get install ffmpeg
 ```
 
@@ -62,7 +63,7 @@ from inference_valley3.vllm_0_18_0.valley_omni_oot import ValleyOmniForCondition
 ModelRegistry.register_model("ValleyOmniForConditionalGeneration", ValleyOmniForConditionalGeneration)
 ```
 
-#### Option2: Modify vLLM’s codebase: install Valley3 before inference
+#### Option2: Modify vLLM’s codebase, install Valley3 before inference
 ```bash
 # Dependencies: torch2.10, ...
 pip3 install vllm==0.18.0
@@ -78,14 +79,29 @@ cd /path/to/transformers
 pip3 install -e . --user
 # Others
 pip3 install qwen_omni_utils==0.0.8
-pip3 install qwen_vl_utils==0.0.14
 sudo apt-get install ffmpeg
 ```
 
 ## Inference Demo
 ### I. Transformers inference scripts
+We provide two model variants: Instruct​ and Think. The Think​ version requires a specific system prompt to activate its chain-of-thought reasoning capability.
+
+```python
+THINKING_SYSTEM_PROMPT = """You are a helpful assistant.
+Reasoning effort: high
+Reasoning policy:
+- Use the specified reasoning effort as an internal guide for how much analysis to do before answering, with the reasoning enclosed within <thinking> and </thinking>.
+- The response generated after </thinking> MUST strictly follow the user's instructions and required output format.
+Reasoning effort levels:
+- minimal: Disable internal reasoning for this effort. Output an empty <thinking>\n</thinking> before the response.
+- medium: Perform internal reasoning, using clear step-by-step thinking and verifying important constraints before responding.
+- high: Perform more thorough internal reasoning, consider multiple possible interpretations, alternatives, and edge cases, and carefully validate the final answer before responding."""
+```
 ```bash
-CUDA_VISIBLE_DEVICES=0 nohup python3 -u valley3_inference_examples_transformers.py > valley3_inference_examples_transformers.log 2>&1 &
+# Valley3-Instruct
+CUDA_VISIBLE_DEVICES=0 nohup python3 -u valley3_instruct_inference_examples_transformers.py > valley3_instruct_inference_examples_transformers.log 2>&1 &
+# Valley3-Think
+CUDA_VISIBLE_DEVICES=0 nohup python3 -u valley3_think_inference_examples_transformers.py > valley3_think_inference_examples_transformers.log 2>&1 &
 ```
 
 ### II. vLLM inference scripts
