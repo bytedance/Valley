@@ -10,19 +10,32 @@
 <p>
 
 <p align="center">
+        &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley3-8B-Instruct">Valley3 8B Instruct </a>&nbsp&nbsp |
+        &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley3-8B-Think">Valley3 8B Think </a>&nbsp&nbsp
+</p>
+
+<p align="center">
+        &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley3-32B-Instruct">Valley3 32B Instruct </a>&nbsp&nbsp |
+        &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley3-32B-Think">Valley3 32B Think </a>&nbsp&nbsp
+</p>
+
+<p align="center">
         &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley-Eagle-7B">Valley2 Model</a>&nbsp&nbsp |
         &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley2-DPO">Valley2-DPO Model</a>&nbsp&nbsp |
         &nbsp&nbsp 🤗 <a href="https://huggingface.co/bytedance-research/Valley2.5">Valley2.5 Model</a>&nbsp&nbsp
 </p>
 <p align="center">
-        &nbsp&nbsp 📙 <a href="https://arxiv.org/abs/2306.07207">Valley Paper</a>&nbsp&nbsp |
+        &nbsp&nbsp 📙 <a href="https://arxiv.org/abs/2605.01278">Valley3 Paper</a>&nbsp&nbsp |  
+        &nbsp&nbsp 📙 <a href="https://raw.githubusercontent.com/bytedance/Valley/refs/heads/main/docs/Valley2_5_Tech_Report.pdf">Valley2.5 Paper</a> &nbsp&nbsp |
         &nbsp&nbsp 📙 <a href="https://arxiv.org/abs/2501.05901">Valley2 Paper</a>&nbsp&nbsp |  
-        &nbsp&nbsp 📙 <a href="https://raw.githubusercontent.com/bytedance/Valley/refs/heads/main/docs/Valley2_5_Tech_Report.pdf">Valley2.5 Paper</a> &nbsp&nbsp 
+        &nbsp&nbsp 📙 <a href="https://arxiv.org/abs/2306.07207">Valley Paper</a>&nbsp&nbsp 
 </p>
 
 ## News
-- [2025/11/27] 🔥🔥🔥 We have released the technical report of Valley2.5! Check out the full paper here: [Valley2.5 Technical Report](https://raw.githubusercontent.com/bytedance/Valley/refs/heads/main/docs/Valley2_5_Tech_Report.pdf).  
-- [2025/10/26] 🔥🔥🔥 We have released the weights of [Valley2.5](https://huggingface.co/bytedance-research/Valley2.5), which significantly enhances multimodal understanding and reasoning capabilities. It has achieved 74.3 on the OpenCompass Multi-modal Academic Leaderboard!
+- [2026/5/5] 🔥🔥🔥 We have released the technical report of Valley3! Check out the full paper here: [Valley3 Technical Report](https://arxiv.org/abs/2605.01278).
+- [2026/5/1] 🔥🔥🔥 We have released the model weights of [Valley3](https://huggingface.co/collections/bytedance-research/valley), which is an omni foundation model collection for unified e-commerce understanding and reasoning.
+- [2025/11/27] 🔥🔥 We have released the technical report of Valley2.5! Check out the full paper here: [Valley2.5 Technical Report](https://raw.githubusercontent.com/bytedance/Valley/refs/heads/main/docs/Valley2_5_Tech_Report.pdf).  
+- [2025/10/26] 🔥🔥 We have released the weights of [Valley2.5](https://huggingface.co/bytedance-research/Valley2.5), which significantly enhances multimodal understanding and reasoning capabilities. It has achieved 74.3 on the OpenCompass Multi-modal Academic Leaderboard!
 - [2025/06/06] 🔥🔥 We have submitted Valley2-DPO to the closed-source OpenCompass Multi-modal Leaderboard, achieving a score of 38.62, which ranks top-3 among multi-modal models with fewer than 10 billion (10B) parameters.
 - [2025/04/14] 🔥 We have released the weights of [Valley2-DPO](https://huggingface.co/bytedance-research/Valley2-DPO)!
 - [2025/02/09] 🔥 We have developed the Valley2-DPO, which scored 69.6 on the Opencompass leaderboard, and the weights will be released soon.
@@ -36,6 +49,53 @@ Valley is a cutting-edge multimodal large model designed to handle a variety of 
 
 - Achieved the best results in the inhouse e-commerce and short-video benchmarks, much better then other SOTA opensource models.
 - Demonstrated comparatively outstanding performance in the OpenCompass Benchmark.
+
+## Valley3: Scaling Omni Foundation Models for E-commerce
+### Model Architecture
+Valley3 is built upon the Qwen3-VL backbone and extends it with audio transformer for audio encoding. The audio embeddings are aligned to the visual-language backbone via an MLP-based connector, then concatenated with visual and text tokens into a unified input space, enabling omni-modal understanding.
+
+![Valley3 architecture](valley3/example_data/valley_arch_0330.png)
+
+### Environment Setup
+We provide two inference methods for Valley3: one based on Transformers and the other on vLLM.
+- Transformers: Supports version 5.0.0dev and the official 5.0release
+- vLLM: Compatible with version 0.18.0
+    - Main Dependencies: Torch 2.10 and CUDA 12.8
+    - Make sure to install the Transformers library that has been integrated with the Valley3 model
+
+**Please refer to the detailed instruction in [valley3](https://github.com/bytedance/Valley/tree/main/valley3) folder.**
+
+### Inference Demo
+#### I. Transformers inference scripts
+We provide two model variants: Instruct​ and Think. The Think​ version requires a specific system prompt to activate its chain-of-thought reasoning capability.
+
+```python
+THINKING_SYSTEM_PROMPT = """You are a helpful assistant.
+Reasoning effort: high
+Reasoning policy:
+- Use the specified reasoning effort as an internal guide for how much analysis to do before answering, with the reasoning enclosed within <thinking> and </thinking>.
+- The response generated after </thinking> MUST strictly follow the user's instructions and required output format.
+Reasoning effort levels:
+- minimal: Disable internal reasoning for this effort. Output an empty <thinking>\n</thinking> before the response.
+- medium: Perform internal reasoning, using clear step-by-step thinking and verifying important constraints before responding.
+- high: Perform more thorough internal reasoning, consider multiple possible interpretations, alternatives, and edge cases, and carefully validate the final answer before responding."""
+```
+```bash
+# Valley3-Instruct
+CUDA_VISIBLE_DEVICES=0 nohup python3 -u valley3_instruct_inference_examples_transformers.py > valley3_instruct_inference_examples_transformers.log 2>&1 &
+# Valley3-Think
+CUDA_VISIBLE_DEVICES=0 nohup python3 -u valley3_think_inference_examples_transformers.py > valley3_think_inference_examples_transformers.log 2>&1 &
+```
+
+#### II. vLLM inference scripts
+##### Option1: Out-of-tree plugin
+```bash
+VLLM_WORKER_MULTIPROC_METHOD=spawn CUDA_VISIBLE_DEVICES=0 nohup python3 -u valley3_inference_examples_vllm_outoftree.py > valley3_inference_examples_vllm_oot.log 2>&1 &
+```
+##### Option2: Modify vLLM’s codebase
+```bash
+VLLM_WORKER_MULTIPROC_METHOD=spawn CUDA_VISIBLE_DEVICES=0 nohup python3 -u valley3_inference_examples_vllm.py > valley3_inference_examples_vllm.log 2>&1 &
+```
 
 ## Valley2.5
 ### Architecture
@@ -306,6 +366,8 @@ We list related Project
 - [LLaVA-CoT: Let Vision Language Models Reason Step-by-Step](https://github.com/PKU-YuanGroup/LLaVA-CoT)
 - [Qwen2.5](https://github.com/QwenLM/Qwen2.5)
 - [Qwen3](https://github.com/QwenLM/Qwen3)
+- [Qwen3-VL](https://github.com/QwenLM/Qwen3-VL)
+- [Qwen3-Omni](https://github.com/QwenLM/Qwen3-Omni)
 
 ## License Agreement
 All of our open-source models are licensed under the [Apache-2.0](./LICENSE) license.
@@ -325,6 +387,16 @@ Contact & Resume Submission: xiaochen.qiu@bytedance.com, yangmin.priv@bytedance.
 
 ## Citation
 ```
+@misc{chen2026valley3scalingomnifoundation,
+      title={Valley3: Scaling Omni Foundation Models for E-commerce}, 
+      author={Zeyu Chen and Guanghao Zhou and Qixiang Yin and Ziwang Zhao and Huanjin Yao and Pengjiu Xia and Min Yang and Cen Chen and Minghui Qiu},
+      year={2026},
+      eprint={2605.01278},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2605.01278}, 
+}
+
 @article{wu2025valley2,
   title={Valley2: Exploring Multimodal Models with Scalable Vision-Language Design},
   author={Wu, Ziheng and Chen, Zhenghao and Luo, Ruipu and Zhang, Can and Gao, Yuan and He, Zhentao and Wang, Xian and Lin, Haoran and Qiu, Minghui},
