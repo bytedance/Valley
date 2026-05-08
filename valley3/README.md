@@ -8,7 +8,7 @@ Valley3 is an efficient omni e-commerce foundation model for unified e-commerce 
 ## Model Architecture
 Valley3 is built upon the Qwen3-VL backbone and extends it with audio transformer for audio encoding. The audio embeddings are aligned to the visual-language backbone via an MLP-based connector, then concatenated with visual and text tokens into a unified input space, enabling omni-modal understanding.
 
-![Valley3 architecture](example_data/valley_arch_0330.png)
+![Valley3 architecture](../assets/valley3_structure.png)
 
 ## Environment Setup
 We provide two inference methods for Valley3: one based on Transformers and the other on vLLM.

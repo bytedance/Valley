@@ -32,8 +32,8 @@
 </p>
 
 ## News
-- [2026/5/5] 🔥🔥🔥 We have released the technical report of Valley3! Check out the full paper here: [Valley3 Technical Report](https://arxiv.org/abs/2605.01278).
-- [2026/5/1] 🔥🔥🔥 We have released the model weights of [Valley3](https://huggingface.co/collections/bytedance-research/valley), which is an omni foundation model collection for unified e-commerce understanding and reasoning.
+- [2026/05/05] 🔥🔥🔥 We have released the technical report of Valley3! Check out the full paper here: [Valley3 Technical Report](https://arxiv.org/abs/2605.01278).
+- [2026/05/01] 🔥🔥🔥 We have released the model weights of [Valley3](https://huggingface.co/collections/bytedance-research/valley), which is an omni foundation model collection for unified e-commerce understanding and reasoning.
 - [2025/11/27] 🔥🔥 We have released the technical report of Valley2.5! Check out the full paper here: [Valley2.5 Technical Report](https://raw.githubusercontent.com/bytedance/Valley/refs/heads/main/docs/Valley2_5_Tech_Report.pdf).  
 - [2025/10/26] 🔥🔥 We have released the weights of [Valley2.5](https://huggingface.co/bytedance-research/Valley2.5), which significantly enhances multimodal understanding and reasoning capabilities. It has achieved 74.3 on the OpenCompass Multi-modal Academic Leaderboard!
 - [2025/06/06] 🔥🔥 We have submitted Valley2-DPO to the closed-source OpenCompass Multi-modal Leaderboard, achieving a score of 38.62, which ranks top-3 among multi-modal models with fewer than 10 billion (10B) parameters.
@@ -50,11 +50,10 @@ Valley is a cutting-edge multimodal large model designed to handle a variety of 
 - Achieved the best results in the inhouse e-commerce and short-video benchmarks, much better then other SOTA opensource models.
 - Demonstrated comparatively outstanding performance in the OpenCompass Benchmark.
 
-## Valley3: Scaling Omni Foundation Models for E-commerce
-### Model Architecture
+## Valley3
 Valley3 is built upon the Qwen3-VL backbone and extends it with audio transformer for audio encoding. The audio embeddings are aligned to the visual-language backbone via an MLP-based connector, then concatenated with visual and text tokens into a unified input space, enabling omni-modal understanding.
 
-![Valley3 architecture](valley3/example_data/valley_arch_0330.png)
+![Valley3 architecture](assets/valley3_structure.png)
 
 ### Environment Setup
 We provide two inference methods for Valley3: one based on Transformers and the other on vLLM.
