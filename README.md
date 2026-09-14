@@ -32,7 +32,7 @@
 </p>
 
 ## News
-- [2026/09/03] 🔥🔥🔥 Valley3 has been accepted by [Conference on Language Modeling (COLM) 2026] (https://colm.eventhosts.cc/Conferences/2026/AcceptedPapers)!
+- [2026/09/03] 🔥🔥🔥 Valley3 has been accepted by [Conference on Language Modeling (COLM) 2026](https://colm.eventhosts.cc/Conferences/2026/AcceptedPapers)!
 - [2026/05/05] 🔥🔥🔥 We have released the technical report of Valley3! Check out the full paper here: [Valley3 Technical Report](https://arxiv.org/abs/2605.01278).
 - [2026/05/01] 🔥🔥🔥 We have released the model weights of [Valley3](https://huggingface.co/collections/bytedance-research/valley), which is an omni foundation model collection for unified e-commerce understanding and reasoning.
 - [2025/11/27] 🔥🔥 We have released the technical report of Valley2.5! Check out the full paper here: [Valley2.5 Technical Report](https://raw.githubusercontent.com/bytedance/Valley/refs/heads/main/docs/Valley2_5_Tech_Report.pdf).  
